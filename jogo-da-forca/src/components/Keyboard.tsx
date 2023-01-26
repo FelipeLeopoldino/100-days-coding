@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { StyledInterface } from 'styled-components'
 
 const Keys = [
   'a',
@@ -56,14 +56,35 @@ const Button = styled.button<{ isActive: boolean }>`
     cursor: not-allowed;
   }
 `
-export default function Keyboard() {
+interface KeyBoardProps {
+  disabled?: boolean
+  activeLetters: string[]
+  inactiveLetters: string[]
+  addGuessedLetter: (letter: string) => void
+}
+
+export default function Keyboard({
+  disabled = false,
+  activeLetters,
+  inactiveLetters,
+  addGuessedLetter
+}: KeyBoardProps) {
   return (
     <Wrapper>
-      {Keys.map(letter => (
-        <Button isActive={true} key={letter}>
-          {letter.toLocaleUpperCase()}
-        </Button>
-      ))}
+      {Keys.map(letter => {
+        const isActive = !activeLetters.includes(letter)
+        const isInactive = !inactiveLetters.includes(letter)
+        return (
+          <Button
+            onClick={() => addGuessedLetter(letter)}
+            isActive={isActive && isInactive}
+            key={letter}
+            disabled={!(isActive && isInactive) || disabled}
+          >
+            {letter.toLocaleUpperCase()}
+          </Button>
+        )
+      })}
     </Wrapper>
   )
 }

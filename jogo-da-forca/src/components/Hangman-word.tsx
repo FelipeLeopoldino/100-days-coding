@@ -10,20 +10,36 @@ const Wrapper = styled.div`
   font-family: sans-serif;
 `
 
-export default function HangmanWord() {
-  const word = 'teste'
-  const guesedLetters = ['s', 't', 'h']
+interface HangmanWordProps {
+  word: string
+  guessedLetters: string[]
+  reveal: boolean
+}
 
+export default function HangmanWord({
+  reveal,
+  word,
+  guessedLetters
+}: HangmanWordProps) {
   return (
     <Wrapper>
       {word.split('').map((letter, index) => (
         <span
-          style={{ borderBottom: '0.1em solid black', height: '40px' }}
+          style={{
+            borderBottom: '0.1em solid black',
+            height: '40px',
+            minWidth: '50px'
+          }}
           key={index}
         >
           <span
             style={{
-              visibility: guesedLetters.includes(letter) ? 'visible' : 'hidden'
+              visibility:
+                guessedLetters.includes(letter) || reveal
+                  ? 'visible'
+                  : 'hidden',
+              color:
+                !guessedLetters.includes(letter) && reveal ? 'red' : 'black'
             }}
           >
             {letter}

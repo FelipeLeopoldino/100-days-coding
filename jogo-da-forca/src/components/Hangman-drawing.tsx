@@ -85,21 +85,25 @@ const LeftLeg = styled.div`
   rotate: -40deg;
 `
 
-export default function HangmanDrawing() {
+const bodyParts = [Head, Body, RigthArm, LeftArm, RigthLeg, LeftLeg]
+interface HangmanDrawingProps {
+  numberOfGuesses: number
+}
+
+export default function HangmanDrawing({
+  numberOfGuesses
+}: HangmanDrawingProps) {
   return (
     <div
       style={{
         position: 'relative'
       }}
     >
+      {bodyParts.slice(0, numberOfGuesses).map((BodyParty, index) => {
+        return <BodyParty key={index} />
+      })}
       <HorizontalLine />
       <VerticalLineSmall />
-      <Head />
-      <RigthArm />
-      <LeftArm />
-      <Body />
-      <RigthLeg />
-      <LeftLeg />
       <VerticalLine />
       <Base />
     </div>
